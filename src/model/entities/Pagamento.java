@@ -9,12 +9,14 @@ public class Pagamento {
     private Pedido pedido;
     private double valorPagamento;
     private LocalDate dataPagamento;
+    private Boolean isPago;
 
-    public Pagamento(int idPagamento, int idPedido, double valorPagamento) {
+    public Pagamento(int idPagamento, int idPedido, double valorPagamento,  LocalDate dataPagamento) {
         this.idPagamento = idPagamento;
         this.pedido = IdManager.getInstance().getPedidoById(idPedido);
         this.valorPagamento = valorPagamento;
-        this.dataPagamento = null;
+        this.dataPagamento = dataPagamento;
+        this.isPago = dataPagamento != null;
     }
 
     public void aprovarPagamento() {
@@ -51,5 +53,13 @@ public class Pagamento {
 
     public void setDataPagamento(LocalDate dataPagamento) {
         this.dataPagamento = dataPagamento;
+    }
+
+    public Boolean getPago() {
+        return isPago;
+    }
+
+    public void setPago(Boolean pago) {
+        isPago = pago;
     }
 }

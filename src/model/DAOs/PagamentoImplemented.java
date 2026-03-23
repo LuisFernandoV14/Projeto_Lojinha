@@ -52,7 +52,8 @@ public class PagamentoImplemented implements PagamentoDAOInterface {
                 result = new Pagamento(
                         rs.getInt("id_pagamento"),
                         rs.getInt("id_pedido"),
-                        rs.getDouble("preco")
+                        rs.getDouble("preco"),
+                        rs.getDate("dat_pagamento").toLocalDate()
                 );
             } else {
                 return null;
