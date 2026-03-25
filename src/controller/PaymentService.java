@@ -4,6 +4,7 @@ import model.entities.Cliente;
 import model.entities.Pedido;
 import model.utilities.IdManager;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -48,6 +49,16 @@ public class PaymentService {
 
     public List<Pedido> getPedidos(Cliente cliente) {
         return IdManager.getInstance().getPedidosByClientId(cliente.getIdCliente());
+    }
+
+    public void identificarPedidoParaPagamento(List<Pedido> pedidos) {
+
+        System.out.println("\nPor favor, digite o número do pedido que será feito o pagamento: ");
+        for (Pedido pedido : pedidos) {
+            //System.out.println(pedido.getIdPedido() + " - " + pedido.getItens() + " - " + pedido.getValorTotal() + " - Feito em " + pedido.getDataPedido());
+            System.out.println(pedido.toString());
+        }
+
     }
 
 

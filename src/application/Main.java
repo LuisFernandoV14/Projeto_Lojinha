@@ -23,5 +23,7 @@ public class Main {
             System.out.println("\nVocê tem " + pedidos.size() + " pagamentos pendentes.");
         }
 
+        PaymentService.getInstance().identificarPedidoParaPagamento(pedidos);
+
     }
 }
