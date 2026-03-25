@@ -5,6 +5,7 @@ import DB.DbException;
 import model.entities.Pagamento;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 public class PagamentoImplemented implements PagamentoDAOInterface {
 
@@ -23,15 +24,26 @@ public class PagamentoImplemented implements PagamentoDAOInterface {
 
             if (findById(pagamento.getIdPagamento()) == null) {
 
-                ps = conn.prepareStatement("INSERT INTO Pagamento (id_pagamento, id_pedido, val_pagamento, dat_pagamento) VALUES (?, ?, ?, ?)");
-                ps.setInt(1, pagamento.getIdPagamento());
-                ps.setInt(2, pagamento.getPedido().getIdPedido());
-                ps.setDouble(3, pagamento.getValorPagamento());
+                ps = conn.prepareStatement("INSERT INTO Pagamento (id_pedido, val_pagamento, dat_pagamento) VALUES (?, ?, ?)");
+                ps.setInt(1, pagamento.getPedido().getIdPedido());
+                ps.setDouble(2, pagamento.getValorPagamento());
+                ps.setDate(3, Date.valueOf(LocalDate.now()));
 
-
+            } else {
+                System.out.println("O pagamento do pedido com id: " + pagamento.getPedido().getIdPedido() + " já existe");
             }
 
+            conn.commit();
+
+
         } catch (SQLException e) {
+
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                System.out.println("Aí deu o carai memo");
+            }
+
             throw new DbException(e.getMessage());
         }
     }

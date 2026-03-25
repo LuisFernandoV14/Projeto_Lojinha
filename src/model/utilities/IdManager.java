@@ -74,10 +74,12 @@ public class IdManager {
         return pedidos;
     }
 
-
-
     public Produto getProdutoById(int idProduto) {
         return produto.findById(idProduto);
+    }
+
+    public void insertPagamento(Pagamento pag) {
+        pagamento.insert(pag);
     }
 
 }

@@ -69,7 +69,7 @@ public class PaymentService {
         for (Pedido pedido : pedidos) {
             System.out.println(pedido.toString());
         }
-        System.out.print("R ");
+        System.out.print("\nR: ");
         String escolha = input.nextLine();
 
         try {
@@ -90,8 +90,21 @@ public class PaymentService {
             return null;
         }
 
-        return IdManager.getInstance().getPedidoById(Integer.parseInt(escolha));
+        char option = ' ';
 
+        while (true) {
+            System.out.print("Você escolheu o pedido de número " + escolha + " para ser pago. Certo? (Y/N) \nR: ");
+            option = input.nextLine().toUpperCase().charAt(0);
+
+            if (option == 'Y') {
+                return IdManager.getInstance().getPedidoById(Integer.parseInt(escolha));
+            } else if (option == 'N') {
+                System.out.println("\nVoltando do começo...");
+                return null;
+            } else {
+                System.out.println("Opção Inválida. Por favor escreva Y (yes) ou N (no)\n");
+            }
+        }
     }
 
 
