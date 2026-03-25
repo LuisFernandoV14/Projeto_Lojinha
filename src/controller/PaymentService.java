@@ -1,9 +1,11 @@
 package controller;
 
 import model.entities.Cliente;
+import model.entities.Pagamento;
 import model.entities.Pedido;
 import model.utilities.IdManager;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class PaymentService {
@@ -57,10 +59,6 @@ public class PaymentService {
         return pedidos;
     }
 
-    public Pedido getPedido(int id) {
-        return IdManager.getInstance().getPedidoById(id);
-    }
-
     public Pedido identificarPedidoParaPagamento(List<Pedido> pedidos) {
 
         if (pedidos == null || pedidos.isEmpty()) { return null;}
@@ -107,6 +105,20 @@ public class PaymentService {
         }
     }
 
+    public Pagamento realizarPagamento (Pedido pedido) {
+
+        System.out.println("\nItens do pedido: " + pedido.getItens() + "\nPreço total: " + pedido.getValorTotal());
+
+        int ultimoIdAdicionado = IdManager.getInstance().getLastPagamentoAdded().getIdPagamento() + 1;
+
+        Pagamento pagamento = IdManager.getInstance().insertPagamento(new Pagamento(ultimoIdAdicionado, pedido.getIdPedido(), pedido.getValorTotal(), LocalDate.now()));
+
+        if (pagamento == null) {
+            System.out.println("O pagamento desse pedido já foi realizado.");
+        }
+
+        return pagamento;
+    }
 
     // 111.222.333-44
     // 444.555.666-77

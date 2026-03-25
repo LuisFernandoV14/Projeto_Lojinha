@@ -2,6 +2,7 @@ package application;
 
 import controller.PaymentService;
 import model.entities.Cliente;
+import model.entities.Pagamento;
 import model.entities.Pedido;
 
 import java.util.List;
@@ -23,15 +24,12 @@ public class Main {
         }
 
         Pedido pedido = null;
+        Pagamento pagamento = null;
 
-        while (pedido == null) {
+        while (pedido == null || pagamento == null) {
             pedido = PaymentService.getInstance().identificarPedidoParaPagamento(pedidos);
+            pagamento = PaymentService.getInstance().realizarPagamento(pedido);
         }
-
-
-
-
-
 
     }
 }

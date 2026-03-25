@@ -78,8 +78,17 @@ public class IdManager {
         return produto.findById(idProduto);
     }
 
-    public void insertPagamento(Pagamento pag) {
-        pagamento.insert(pag);
+    public Pagamento insertPagamento(Pagamento pag) {
+
+        if (pagamento.isAlreadyAdded(pag)) {
+            return null;
+        }
+
+        return pagamento.insert(pag);
+    }
+
+    public Pagamento getLastPagamentoAdded() {
+        return pagamento.getLastAdded();
     }
 
 }
