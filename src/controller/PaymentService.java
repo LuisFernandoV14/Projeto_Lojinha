@@ -4,11 +4,7 @@ import model.entities.Cliente;
 import model.entities.Pedido;
 import model.utilities.IdManager;
 
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.SimpleTimeZone;
+import java.util.*;
 
 public class PaymentService {
 
@@ -44,25 +40,63 @@ public class PaymentService {
     }
 
     public Cliente getCliente(String CPF) {
-        return IdManager.getInstance().getClienteByCPF(CPF);
+        Cliente cli = IdManager.getInstance().getClienteByCPF(CPF);
+        if (cli == null) {
+            System.out.println("CPF não encontrado em nosso sistema.");
+        }
+        return cli;
     }
 
     public List<Pedido> getPedidos(Cliente cliente) {
-        return IdManager.getInstance().getPedidosByClientId(cliente.getIdCliente());
+        List<Pedido> pedidos = IdManager.getInstance().getPedidosByClientId(cliente.getIdCliente());
+        if (pedidos == null || pedidos.isEmpty()) {
+            System.out.println("Nenhum pedido encontrado no CPF: " + cliente.getCpf() +
+                    "\nVocê não tem nenhum pagamento pendente." +
+                    "\n\nVoltando para o ínicio...");
+        }
+        return pedidos;
     }
 
-    public void identificarPedidoParaPagamento(List<Pedido> pedidos) {
+    public Pedido getPedido(int id) {
+        return IdManager.getInstance().getPedidoById(id);
+    }
+
+    public Pedido identificarPedidoParaPagamento(List<Pedido> pedidos) {
+
+        if (pedidos == null || pedidos.isEmpty()) { return null;}
 
         System.out.println("\nPor favor, digite o número do pedido que será feito o pagamento: ");
         for (Pedido pedido : pedidos) {
-            //System.out.println(pedido.getIdPedido() + " - " + pedido.getItens() + " - " + pedido.getValorTotal() + " - Feito em " + pedido.getDataPedido());
             System.out.println(pedido.toString());
         }
+        System.out.print("R ");
+        String escolha = input.nextLine();
+
+        try {
+
+            boolean correto = false;
+
+            for (Pedido pedido : pedidos) {
+                if (Integer.parseInt(escolha) == pedido.getIdPedido()) {
+                    correto = true;
+                    break;
+                }
+            }
+
+            if (!correto) throw new IllegalArgumentException("Por favor digite o número de um pedido.");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+        return IdManager.getInstance().getPedidoById(Integer.parseInt(escolha));
 
     }
 
 
-   // 111.222.333-44
+    // 111.222.333-44
+    // 444.555.666-77
 
 
 

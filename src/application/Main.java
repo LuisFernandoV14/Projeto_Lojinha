@@ -4,26 +4,23 @@ import controller.PaymentService;
 import model.entities.Cliente;
 import model.entities.Pedido;
 
-import java.sql.SQLOutput;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        String CPF = PaymentService.getInstance().identificarUsuario();
-        Cliente Cli = PaymentService.getInstance().getCliente(CPF);
+        String CPF = null; Cliente Cli = null; List<Pedido> pedidos = null;
 
-        System.out.println("\nBem vindo " + Cli.getNome() + "!");
-
-        List<Pedido> pedidos = PaymentService.getInstance().getPedidos(Cli);
-
-        if (pedidos.isEmpty()) {
-            System.out.println("\nVocê não tem nenhum pagamento pendente.");
-        } else {
-            System.out.println("\nVocê tem " + pedidos.size() + " pagamentos pendentes.");
+        while (CPF == null || pedidos == null || pedidos.isEmpty()) {
+            CPF = PaymentService.getInstance().identificarUsuario();
+            Cli = PaymentService.getInstance().getCliente(CPF);
+            System.out.println("\nBem vindo " + Cli.getNome() + "!");
+            pedidos = PaymentService.getInstance().getPedidos(Cli);
         }
 
-        PaymentService.getInstance().identificarPedidoParaPagamento(pedidos);
+
+
+        System.out.println(PaymentService.getInstance().identificarPedidoParaPagamento(pedidos).toString());
 
     }
 }
