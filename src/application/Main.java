@@ -31,5 +31,7 @@ public class Main {
             pagamento = PaymentService.getInstance().realizarPagamento(pedido);
         }
 
+        System.out.println("\nPagamento realizado! Encerrando programa...");
+
     }
 }

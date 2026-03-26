@@ -13,7 +13,6 @@ public class PaymentService {
     private static PaymentService instance;
     private static Scanner input = null;
 
-
     private PaymentService() {
         System.out.println("Conectando com o sistema de pagamentos...");
         input = new Scanner(System.in);
@@ -81,7 +80,7 @@ public class PaymentService {
                 }
             }
 
-            if (!correto) throw new IllegalArgumentException("Por favor digite o número de um pedido.");
+            if (!correto) throw new IllegalArgumentException("\nPor favor digite o número de um pedido.");
 
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -91,7 +90,7 @@ public class PaymentService {
         char option = ' ';
 
         while (true) {
-            System.out.print("Você escolheu o pedido de número " + escolha + " para ser pago. Certo? (Y/N) \nR: ");
+            System.out.print("\nVocê escolheu o pedido de número " + escolha + " para ser pago. Certo? (Y/N) \nR: ");
             option = input.nextLine().toUpperCase().charAt(0);
 
             if (option == 'Y') {
