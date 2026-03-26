@@ -9,4 +9,5 @@ public interface PagamentoDAOInterface {
     Pagamento findById(int id);
     Pagamento getLastAdded();
     List<Pagamento> getAll();
+    boolean isAlreadyAdded(Pagamento pagamento);
 }

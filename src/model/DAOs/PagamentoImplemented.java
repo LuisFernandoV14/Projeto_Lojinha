@@ -104,13 +104,15 @@ public class PagamentoImplemented implements PagamentoDAOInterface {
                         rs.getDouble("val_pagamento"),
                         rs.getDate("dat_pagamento").toLocalDate()
                 );
+            } else {
+                return new Pagamento(0, 0, 0, null);
             }
         } catch (SQLException e) {
             throw new DbException(e.getMessage());
         }
-        return null;
     }
 
+    @Override
     public boolean isAlreadyAdded(Pagamento pagamento) {
 
         String sql = "SELECT 1 FROM Pagamento WHERE id_pedido = ?";
@@ -138,11 +140,17 @@ public class PagamentoImplemented implements PagamentoDAOInterface {
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
+                int idPagamento = rs.getInt("id_pagamento");
+                int idPedido = rs.getInt("id_pedido");
+                double valorPagamento = rs.getDouble("val_pagamento");
+                LocalDate datPagamento = (rs.getDate("dat_pagamento") != null) ? rs.getDate("dat_pagamento").toLocalDate() : null;
+
+
                 result.add(new Pagamento(
-                        rs.getInt("id_pagamento"),
-                        rs.getInt("id_pedido"),
-                        rs.getDouble("val_pagamento"),
-                        rs.getDate("dat_pagamento").toLocalDate()
+                        idPagamento,
+                        idPedido,
+                        valorPagamento,
+                        datPagamento
                 ));
             }
 

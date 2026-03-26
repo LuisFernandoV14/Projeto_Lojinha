@@ -120,8 +120,9 @@ public class PaymentService {
         return pagamento;
     }
 
-    // 111.222.333-44
-    // 444.555.666-77
+    // 111.222.333-44 <- 2 pedidos
+    // 222.333.444-55 <- 1 pedido
+    // 444.555.666-77 <- nenhum pedido
 
 
 

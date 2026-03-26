@@ -64,7 +64,7 @@ public class PedidoImplemented implements PedidoDAOInterface {
         try {
 
             st = conn.createStatement();
-            rs = st.executeQuery("SELECT * FROM Pedido WHERE id_cliente = " + id);
+            rs = st.executeQuery("SELECT * FROM Pedido WHERE id_cliente = " + id + " AND id_pedido NOT IN (SELECT id_pedido FROM PAGAMENTO)");
 
             while (rs.next()) {
                 result.add(new Pedido(
