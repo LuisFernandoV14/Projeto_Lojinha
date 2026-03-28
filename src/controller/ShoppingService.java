@@ -17,7 +17,7 @@ public class ShoppingService {
     private static Scanner input;
 
     private ShoppingService () {
-        System.out.println("Conectando com o sistema de compras...");
+        System.out.println("\nConectando com o sistema de compras...");
         input = new Scanner(System.in);
     }
 
@@ -54,8 +54,9 @@ public class ShoppingService {
     public int escolherServico(Cliente Cli) {
         System.out.println("\nBem vindo " + Cli.getNome() + "! O que deseja fazer?");
         System.out.print("""
-                1 - Abrir um pedido
-                2 - Pagar um pedido\s
+                1 - Abrir um pedido.
+                2 - Pagar um pedido.
+                3 - Encerrar programa.\s
             \s""");
         System.out.print("R: ");
 

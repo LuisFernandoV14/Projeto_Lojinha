@@ -14,7 +14,7 @@ public class PaymentService {
     private static Scanner input = null;
 
     private PaymentService() {
-        System.out.println("Conectando com o sistema de pagamentos...");
+        System.out.println("\nConectando com o sistema de pagamentos...");
         input = new Scanner(System.in);
     }
 
