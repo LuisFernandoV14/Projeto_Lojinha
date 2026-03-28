@@ -1,37 +1,40 @@
 package application;
 
 import controller.PaymentService;
+import controller.ShoppingService;
 import model.entities.Cliente;
-import model.entities.Pagamento;
-import model.entities.Pedido;
-
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
+        // "Login" do cliente
+
         String CPF = null;
-        Cliente Cli;
-        List<Pedido> pedidos = null;
+        Cliente Cli = null;
 
-        while (CPF == null || pedidos == null || pedidos.isEmpty()) {
-
-            CPF = PaymentService.getInstance().identificarUsuario();
-            Cli = PaymentService.getInstance().getCliente(CPF);
-
-            System.out.println("\nBem vindo " + Cli.getNome() + "!");
-            pedidos = PaymentService.getInstance().getPedidos(Cli);
+        while(CPF == null || Cli == null) {
+            CPF = ShoppingService.getInstance().identificarUsuario();
+            Cli = ShoppingService.getInstance().getCliente(CPF);
         }
 
-        Pedido pedido = null;
-        Pagamento pagamento = null;
+        // ------------------------------------------------
 
-        while (pedido == null || pagamento == null) {
-            pedido = PaymentService.getInstance().identificarPedidoParaPagamento(pedidos);
-            pagamento = PaymentService.getInstance().realizarPagamento(pedido);
+        // Começo do menu
+        boolean continuar = false;
+        while (!continuar) {
+
+            int option = ShoppingService.getInstance().escolherServico(Cli);
+
+            continuar = switch (option) {
+                case 1 -> ShoppingService.getInstance().iniciarServico(Cli); // Insere um pedido na tabela PEDIDO
+                case 2 -> PaymentService.getInstance().iniciarServico(Cli);  // Insere um pagamento na tabela PAGAMENTO
+
+                default -> false;
+            };
+
         }
 
-        System.out.println("\nPagamento realizado! Encerrando programa...");
-
+        // Se chegar aqui o cliente pediu pra não continuar
+        System.out.println("Encerrando programa...");
     }
 }

@@ -91,4 +91,32 @@ public class IdManager {
         return pagamento.getLastAdded();
     }
 
+    public List<Produto> getProdutos() {
+        return produto.getAll();
+    }
+
+    public Pedido insertPedido(Pedido p, List<ItemPedido> i) {
+           p = pedido.insert(p);
+
+           for (ItemPedido item : i) {
+               item.setIdPedido(p.getIdPedido());
+           }
+
+           pedido.insertItensPedidos(i);
+           i = pedido.getProdutos(p.getIdPedido());
+
+           for (ItemPedido item : i) {
+               p.adicionarItem(item);
+           }
+
+           return p;
+    }
+
+    public ItemPedido getLastItemPedidoAdded() {
+        return pedido.getLastItemPedidoAdded();
+    }
+
+    public Pedido getLastPedidoAdded() {
+        return pedido.getLastAdded();
+    }
 }

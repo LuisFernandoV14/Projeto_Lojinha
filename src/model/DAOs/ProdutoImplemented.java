@@ -2,12 +2,16 @@ package model.DAOs;
 
 import DB.DB;
 import DB.DbException;
+import model.entities.Pagamento;
 import model.entities.Produto;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProdutoImplemented implements ProdutoDAOInterface {
 
@@ -49,4 +53,36 @@ public class ProdutoImplemented implements ProdutoDAOInterface {
         return result;
 
     }
+
+    @Override
+    public List<Produto> getAll() {
+
+        List<Produto> result = new ArrayList<>();
+
+        String sql = "SELECT * FROM Produto";
+
+        try (Statement st = conn.createStatement()) {
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                int idProduto = rs.getInt("id_produto");
+                String nomeProduto = rs.getString("nom_produto");
+                double preco = rs.getDouble("preco");
+
+                result.add(new Produto(
+                        idProduto,
+                        nomeProduto,
+                        preco
+                ));
+            }
+
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        }
+
+        return result;
+    }
+
+
+
 }

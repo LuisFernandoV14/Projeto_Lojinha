@@ -27,27 +27,6 @@ public class PaymentService {
         return instance;
     }
 
-    public String identificarUsuario() {
-
-        System.out.print("\nPor favor, digite seu CPF. (Use traços e pontos: 000.000.000-00)\nR: ");
-        String CPF = input.nextLine();
-
-        if (CPF.length() != 14) {
-            System.out.println("\nCPF inválido. Inclua traços e pontos.");
-            return null;
-        }
-
-        return CPF;
-    }
-
-    public Cliente getCliente(String CPF) {
-        Cliente cli = IdManager.getInstance().getClienteByCPF(CPF);
-        if (cli == null) {
-            System.out.println("CPF não encontrado em nosso sistema.");
-        }
-        return cli;
-    }
-
     public List<Pedido> getPedidos(Cliente cliente) {
         List<Pedido> pedidos = IdManager.getInstance().getPedidosByClientId(cliente.getIdCliente());
         if (pedidos == null || pedidos.isEmpty()) {
@@ -117,6 +96,36 @@ public class PaymentService {
         }
 
         return pagamento;
+    }
+
+    public boolean iniciarServico(Cliente cli) {
+
+        if (cli == null) return false;
+
+        List<Pedido> pedidos;
+
+        System.out.println("\nBem vindo " + cli.getNome() + "!");
+        pedidos = PaymentService.getInstance().getPedidos(cli);
+        if (pedidos == null || pedidos.isEmpty()) return false;
+
+        Pedido pedido = null;
+        Pagamento pagamento = null;
+        while (pedido == null || pagamento == null) {
+            pedido = PaymentService.getInstance().identificarPedidoParaPagamento(pedidos);
+            pagamento = PaymentService.getInstance().realizarPagamento(pedido);
+        }
+
+        System.out.println("\nPagamento realizado!");
+
+        System.out.print("\nDeseja continuar com o serviço? \nR: ");
+        char continuar = input.nextLine().toUpperCase().charAt(0);
+
+        return switch (continuar) {
+            case 'Y' -> false;
+            case 'N' -> true;
+            default -> false;
+        };
+
     }
 
     // 111.222.333-44 <- 2 pedidos
